@@ -12,7 +12,10 @@ const NavBar = () => {
             style={{ height: "50px", marginLeft: "10px" }}
           />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          style={{ marginRight: "10px" }}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link as={Link} to="/">
