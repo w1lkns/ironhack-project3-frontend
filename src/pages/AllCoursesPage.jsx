@@ -1,30 +1,41 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import CourseSearch from "../components/CourseSearch";
 
 const API_URL = "http://localhost:5005";
 
 const AllCoursesPage = () => {
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllCourses = () => {
+    setIsLoading(true);
     axios
       .get(`${API_URL}/api/courses`)
-      .then((response) => setCourses(response.data))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setCourses(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
-
-  console.log(courses);
 
   useEffect(() => {
     getAllCourses();
   }, []);
 
+  if (isLoading) {
+    return <Spinner animation="border" />;
+  }
+
   return (
     <div className="container">
       <div className="row">
-        <CourseSearch />
+        <CourseSearch setCourses={setCourses} />
         {courses.length === 0 && <h3>No courses found</h3>}
         {courses.map((course) => (
           <div key={course._id} className="col-md-4 mb-4">
