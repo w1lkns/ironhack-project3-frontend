@@ -62,3 +62,15 @@ body > .container {
 code {
   font-size: 80%;
 }
+
+/* Blending € field with input field */
+
+.custom-input-group .input-group-text {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.custom-input-group .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
