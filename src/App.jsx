@@ -6,6 +6,7 @@ import CoursePage from "./pages/CoursePage";
 import LecturerPage from "./pages/LecturerPage";
 import FooterBar from "./components/FooterBar";
 import "./App.css";
+import AddCoursePage from "./pages/AddCoursePage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<AllCoursesPage />} />
           <Route path="/courses/:courseId" element={<CoursePage />} />
+          <Route path="/courses/newcourse" element={<AddCoursePage />} />
           <Route path="/lecturers/:lecturerId" element={<LecturerPage />} />
         </Routes>
       </div>

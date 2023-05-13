@@ -4,6 +4,7 @@ import { InputGroup, FormControl, Button, Row, Col } from "react-bootstrap";
 
 const API_URL = "http://localhost:5005";
 
+// eslint-disable-next-line react/prop-types
 const CourseSearch = ({ setCourses }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
