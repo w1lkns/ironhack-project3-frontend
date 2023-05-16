@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Card, Image, Row, Col, Button, Badge } from "react-bootstrap";
 
 const API_URL = "http://localhost:5005";
 
@@ -34,17 +35,49 @@ const CoursePage = () => {
 
   return (
     <div className="container">
-      <div>CoursePage</div>
       {course && (
-        <>
-          <h1>{course.name}</h1>
-          <p>{course.description}</p>
+        <Row>
+          <Col xs={12} lg={6}>
+            <Card style={{ marginBottom: "15px" }}>
+              <Card.Body>
+                <Card.Title>
+                  <h1>{course.name}</h1>
+                </Card.Title>
+                <Card.Text>
+                  <p>{course.description}</p>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+
           {lecturer && (
-            <p>
-              Lecturer: <Link to={`/lecturers/${lecturer._id}`}>{lecturer.name}</Link>
-            </p>
+            <Col xs={12} lg={6}>
+              <Card style={{ marginBottom: "15px" }}>
+                <Card.Body className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={lecturer.profileImage}
+                      style={{ width: "40px", borderRadius: "50%" }}
+                    />
+                    <div className="ml-4">
+                      <h5 className="mb-0">{lecturer.name}</h5>
+                    </div>
+                  </div>
+                  <Button variant="outline-primary" size="sm">
+                    Edit
+                  </Button>
+                </Card.Body>
+                <hr />
+                <Card.Body className="d-flex justify-content-between align-items-center bg-light">
+                  <Badge variant="success">Active account</Badge>
+                  <Button variant="outline-secondary" size="sm">
+                    Switch
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
           )}
-        </>
+        </Row>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import makeAnimated from "react-select/animated";
 import {
@@ -10,6 +10,7 @@ import {
   Alert,
   Image,
 } from "react-bootstrap";
+import formHeader from "../assets/images/form-header.png";
 import CreatableSelect from "react-select/creatable";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ const API_URL = "http://localhost:5005";
 
 const AddCoursePage = () => {
   const navigate = useNavigate();
+  const [lecturers, setLecturers] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [course, setCourse] = useState({
     name: "",
@@ -34,11 +36,25 @@ const AddCoursePage = () => {
   };
 
   const handleChange = (e) => {
-    setCourse({
-      ...course,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setCourse((prevCourse) => ({
+      ...prevCourse,
+      [name]: value,
+    }));
   };
+
+  useEffect(() => {
+    const fetchLecturers = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/lecturers`);
+        setLecturers(response.data);
+      } catch (error) {
+        console.error("Error fetching lecturers", error);
+      }
+    };
+
+    fetchLecturers();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,12 +76,20 @@ const AddCoursePage = () => {
           <Container className="p-3 bg-light text-center">
             <h1 className="mb-3">Create a New Course</h1>
             <p>Use the form below to create your own course.</p>
-            <Image
-              src="https://wpimg.pixelied.com/blog/wp-content/uploads/2021/08/30114524/Google-Form-Header-Image-Size-Featured-Image.png"
-              fluid
-              alt="header-img"
-            />
+            <Image src={formHeader} fluid alt="header-img" />
           </Container>
+
+          {showAlert && (
+            <Alert
+              m-2
+              variant="success"
+              onClose={() => setShowAlert(false)}
+              dismissible
+            >
+              Course `{course.name}` created
+            </Alert>
+          )}
+
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="courseName">
               <Form.Label>Name</Form.Label>
@@ -126,12 +150,18 @@ const AddCoursePage = () => {
             <Form.Group controlId="courseLecturer">
               <Form.Label>Lecturer</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="lecturer"
                 value={course.lecturer}
                 onChange={handleChange}
                 required
-              />
+              >
+                {lecturers.map((lecturer) => (
+                  <option value={lecturer._id} key={lecturer._id}>
+                    {lecturer.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             <br />
@@ -139,15 +169,6 @@ const AddCoursePage = () => {
               Submit
             </Button>
           </Form>
-          {showAlert && (
-            <Alert
-              variant="success"
-              onClose={() => setShowAlert(false)}
-              dismissible
-            >
-              Course `{course.name}` created
-            </Alert>
-          )}
         </Col>
       </Row>
     </Container>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/images/bb-logo.png";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const NavBar = () => {
@@ -7,7 +8,7 @@ const NavBar = () => {
       <Navbar bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">
           <img
-            src="/img/bb-logo.png"
+            src={logo}
             alt="BrainBounce-logo"
             style={{ height: "50px", marginLeft: "10px" }}
           />
